@@ -9,7 +9,7 @@ io.on('connection', () => {
 })
 
 app.get('/play/:uri', (req, res) => {
-  io.emit(req.params.uri);
+  io.emit('play', {uri : req.params.uri});
   console.log(`play ${req.params.uri}`)
   res.sendStatus(200);
 })
