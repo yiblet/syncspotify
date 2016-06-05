@@ -67,19 +67,19 @@ class Spotify {
     })
   }
 
-  play(uri, cb){
+  play(uri, cb = () => {}){
     this.get('/remote/play.json', {
       uri: uri
     }, cb)
   }
 
-  pause(cb){
+  pause(cb = () => {}){
     this.get('/remote/pause.json', {
       pause : true
     }, cb)
   }
 
-  cont(cb){
+  resume(cb = () => {}){
     this.get('/remote/pause.json', {
       pause : false
     }, cb)

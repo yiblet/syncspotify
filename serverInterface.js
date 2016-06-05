@@ -1,7 +1,7 @@
 var request = require('request');
 var sock =  require('socket.io-client');
-// var url = 'sync.yiblet.me';
-var url = 'http://localhost:24223'
+var url = 'http://sync.yiblet.me';
+// var url = 'http://localhost:24223'
 
 class ServerClient {
   constructor(){
@@ -47,8 +47,13 @@ class ServerClient {
   }
 
   listen(cb) {
-    var client = sock('localhost:24223');
-    client.on('event', cb);
+    var newCb = (mode) => {
+      return (data) => {return cb(mode, data)}
+    }
+    var client = sock(url);
+    client.on('play', newCb('play'));
+    client.on('pause', newCb('pause'));
+    client.on('resume', newCb('resume'));
   }
 }
 
