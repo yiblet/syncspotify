@@ -28,8 +28,7 @@ var  parseBody = (body) => {
   var newIsPaused = getIsPaused(body);
   var newPastPlayingPosition = getPlayingPosition(body);
   var newCurrentTrack = getTrack(body);
-  // console.log(body)
-  if (newPastPlayingPosition <= 2 || newCurrentTrack != currentTrack) {
+  if (newPastPlayingPosition <= 2 && secondsSinceLastStatus() >= 1 || newCurrentTrack != currentTrack) {
     serverClient.play(newCurrentTrack);
   } else if (Math.abs(newPastPlayingPosition - pastPlayingPosition) <= 1
     && isPaused && !newIsPaused && newCurrentTrack == currentTrack) {
@@ -37,7 +36,7 @@ var  parseBody = (body) => {
   } else if (! isPaused && newIsPaused && currentTrack == newCurrentTrack) {
     serverClient.pause();
   } else if (secondsSinceLastStatus() < 60) {
-    console.log('unexpected user pattern, stop being weird', body);
+    console.log('unexpected user pattern, stop being weird');
   }
 
   currentTrack = newCurrentTrack;
