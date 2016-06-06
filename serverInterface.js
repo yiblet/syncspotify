@@ -47,13 +47,19 @@ class ServerClient {
   }
 
   listen(cb) {
-    var newCb = (mode) => {
-      return (data) => {return cb(mode, data)}
+    var options = {
+      url : url + '/listen',
+      timeout : 60*1000*60
     }
-    var client = sock(url, {timeout : 1000000});
-    client.on('play', newCb('play'));
-    client.on('pause', newCb('pause'));
-    client.on('resume', newCb('resume'));
+    var poll = (err, resp, body) => {
+      if (err) {
+        throw err
+      } else {
+        cb(body);
+      }
+      request(options, poll);
+    }
+    request(options, poll);
   }
 }
 

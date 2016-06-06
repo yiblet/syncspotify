@@ -1,11 +1,11 @@
 var serverClient = require('./serverInterface.js')();
 var spotClient = require('./spot.js')();
 
-serverClient.listen((mode, body) => {
-  console.log(mode, body);
-  if (mode == 'play') {
+serverClient.listen((body) => {
+  console.log(body);
+  if (body.mode == 'play') {
     spotClient.play(body.uri);
-  } else if (mode == 'pause') {
+  } else if (body.mode == 'pause') {
     spotClient.pause();
   } else {
     spotClient.resume();
