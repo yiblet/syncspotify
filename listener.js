@@ -1,7 +1,9 @@
+'use strict';
+
 var serverClient = require('./serverInterface.js')();
 var spotClient = require('./spot.js')();
 
-serverClient.listen((body) => {
+serverClient.listen(function (body) {
   console.log(body);
   if (body.mode == 'play') {
     spotClient.play(body.uri);
@@ -11,3 +13,4 @@ serverClient.listen((body) => {
     spotClient.resume();
   }
 });
+

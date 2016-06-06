@@ -1,3 +1,5 @@
+'use strict';
+
 var port = 24223;
 var express = require('express');
 var app = express();
@@ -6,46 +8,47 @@ var http = require('http').Server(app);
 
 var listening = [];
 var current = {
-  mode : '',
-  uri : ''
-}
+  mode: '',
+  uri: ''
+};
 
-var emit = () => {
+var emit = function emit() {
   var old = listening;
   listening = [];
   while (old.length != 0) {
     old.pop()();
   }
-}
+};
 
-app.get('/play/:uri', (req, res) => {
+app.get('/play/:uri', function (req, res) {
   current.mode = 'play';
   current.uri = req.params.uri;
   emit();
-  console.log(`play ${req.params.uri}`)
+  console.log('play ' + req.params.uri);
   res.sendStatus(200);
-})
+});
 
-app.get('/pause', (req, res) => {
+app.get('/pause', function (req, res) {
   current.mode = 'pause';
   emit();
-  console.log('pause')
+  console.log('pause');
   res.sendStatus(200);
-})
+});
 
-app.get('/resume', (req, res) => {
+app.get('/resume', function (req, res) {
   current.mode = 'resume';
   emit();
-  console.log('resume')
+  console.log('resume');
   res.sendStatus(200);
-})
+});
 
-app.get('/listen', (req, res) => {
-  listening.push(() => {
+app.get('/listen', function (req, res) {
+  listening.push(function () {
     res.json(current);
-  })
-})
+  });
+});
 
-http.listen(port, () => {
-  console.log('listening on' + `${port}`);
-})
+http.listen(port, function () {
+  console.log('listening on' + ('' + port));
+});
+
