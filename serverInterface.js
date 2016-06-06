@@ -50,7 +50,7 @@ class ServerClient {
     var newCb = (mode) => {
       return (data) => {return cb(mode, data)}
     }
-    var client = sock(url);
+    var client = sock(url, {timeout : 1000000});
     client.on('play', newCb('play'));
     client.on('pause', newCb('pause'));
     client.on('resume', newCb('resume'));

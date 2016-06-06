@@ -4,8 +4,12 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-io.on('connection', () => {
-  console.log('new connection');
+io.on('connection', (client) => {
+  console.log('new listener', client);
+})
+
+io.on('disconnect', (client) => {
+  console.log('disconnect', client)
 })
 
 app.get('/play/:uri', (req, res) => {
@@ -27,5 +31,5 @@ app.get('/resume', (req, res) => {
 })
 
 http.listen(port, function(){
-  console.log('listening on ' + `${port}`);
+  console.log('listening on' + `${port}`);
 });
