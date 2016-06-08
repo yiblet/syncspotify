@@ -28,7 +28,6 @@ var  parseBody = (body) => {
   var newIsPaused = getIsPaused(body);
   var newPastPlayingPosition = getPlayingPosition(body);
   var newCurrentTrack = getTrack(body);
-  // console.log(body)
   if (newPastPlayingPosition <= 2 || newCurrentTrack != currentTrack) {
     serverClient.play(newCurrentTrack);
   } else if (Math.abs(newPastPlayingPosition - pastPlayingPosition) <= 1
